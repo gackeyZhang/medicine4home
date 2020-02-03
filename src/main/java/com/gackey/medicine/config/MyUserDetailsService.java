@@ -6,6 +6,8 @@ package com.gackey.medicine.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,7 +28,8 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info(String.format("user name is === %s", username));
         // find user by username in mybatis
-        return null;
+        return new User(username, "123", true, true, true, true,
+                AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
     }
 
 }
