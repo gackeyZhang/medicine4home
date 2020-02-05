@@ -16,3 +16,4 @@ medicine:
     browser:
       loginPage: /login.html
       loginType: JSON
+      rememberMeSeconds: 259200

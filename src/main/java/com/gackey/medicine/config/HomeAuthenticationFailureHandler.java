@@ -22,6 +22,9 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gackey.medicine.constant.bean.ConfigProperties;
 import com.gackey.medicine.constant.enumerate.LoginType;
+import com.gackey.medicine.model.ResponseObj;
+
+import javassist.expr.NewArray;
 
 /**
  * @desc 校验失败后自定义处理器
@@ -47,7 +50,7 @@ public class HomeAuthenticationFailureHandler extends SimpleUrlAuthenticationFai
         if (LoginType.JSON.equals(configProperties.getBrowser().getLoginType())) {
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.setContentType("application/json;charset=UTF-8");
-            response.getWriter().write(objectMapper.writeValueAsString(exception));
+            response.getWriter().write(objectMapper.writeValueAsString(new ResponseObj(exception.getMessage())));
         } else {
             super.onAuthenticationFailure(request, response, exception);
         }
