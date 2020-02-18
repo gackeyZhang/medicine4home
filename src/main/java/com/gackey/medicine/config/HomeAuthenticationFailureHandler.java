@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
@@ -23,8 +22,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gackey.medicine.constant.bean.ConfigProperties;
 import com.gackey.medicine.constant.enumerate.LoginType;
 import com.gackey.medicine.model.ResponseObj;
-
-import javassist.expr.NewArray;
 
 /**
  * @desc 校验失败后自定义处理器

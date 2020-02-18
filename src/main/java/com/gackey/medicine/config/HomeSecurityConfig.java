@@ -64,9 +64,16 @@ public class HomeSecurityConfig extends WebSecurityConfigurerAdapter {
                 .tokenValiditySeconds(configProperties.getBrowser().getRememberMeSeconds())
                 .userDetailsService(userDetailsService)
                 .and()
+                .sessionManagement()
+                .invalidSessionUrl("/session/invalid")
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(true)
+                .and()
+                .and()
                 .authorizeRequests()
                 .antMatchers("/authentication/login",
-                        configProperties.getBrowser().getLoginPage())
+                        configProperties.getBrowser().getLoginPage(),
+                        "/session/invalid")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
