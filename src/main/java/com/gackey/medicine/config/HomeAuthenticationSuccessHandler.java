@@ -21,6 +21,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gackey.medicine.constant.bean.ConfigProperties;
 import com.gackey.medicine.constant.enumerate.LoginType;
 
+import javassist.expr.NewArray;
+
 /**
  * @desc 校验成功后自定义处理器
  * @className HomeAuthenticationSuccessHandler
