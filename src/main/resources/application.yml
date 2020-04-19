@@ -4,7 +4,7 @@ server:
     uri-encoding: UTF-8
   servlet:
     session:
-      timeout: 1800
+      timeout: 36000
 spring: 
   datasource: 
     driverClassName: org.mariadb.jdbc.Driver

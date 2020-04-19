@@ -5,9 +5,7 @@
 package com.gackey.medicine.config;
 
 import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,7 +16,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
-
+import com.gackey.medicine.config.session.MedicineExpiredSessionStrategy;
 import com.gackey.medicine.config.validate.ValidateCodeFilter;
 import com.gackey.medicine.constant.bean.ConfigProperties;
 
@@ -61,31 +59,27 @@ public class HomeSecurityConfig extends WebSecurityConfigurerAdapter {
         validateCodeFilter.setAuthenticationFailureHandler(homeAuthenticationFailureHandler);
 
         http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
-                .formLogin()
-                .loginPage("/authentication/login")
-                .loginProcessingUrl("/authentication/form")
-                .successHandler(homeAuthenticationSuccessHandler)
-                .failureHandler(homeAuthenticationFailureHandler)
-                .and()
-                .rememberMe()
-                .tokenRepository(persistentTokenRepository())
-                .tokenValiditySeconds(configProperties.getBrowser().getRememberMeSeconds())
-                .userDetailsService(userDetailsService)
-                .and()
-                .sessionManagement()
-                .invalidSessionUrl("/session/invalid")
-                .maximumSessions(1)
-                .maxSessionsPreventsLogin(true)
-                .and()
-                .and()
-                .authorizeRequests()
-                .antMatchers("/authentication/login",
-                        configProperties.getBrowser().getLoginPage(),
-                        "/session/invalid")
-                .permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .csrf().disable();
+            .formLogin()
+            .loginPage("/authentication/login")
+            .loginProcessingUrl("/authentication/form")
+            .successHandler(homeAuthenticationSuccessHandler)
+            .failureHandler(homeAuthenticationFailureHandler)
+            .and()
+            .rememberMe()
+            .tokenRepository(persistentTokenRepository())
+            .tokenValiditySeconds(configProperties.getBrowser().getRememberMeSeconds())
+            .userDetailsService(userDetailsService)
+            .and()
+            .sessionManagement().invalidSessionUrl("/session/invalid")
+            .maximumSessions(1)
+            .maxSessionsPreventsLogin(true)
+            .expiredSessionStrategy(new MedicineExpiredSessionStrategy())
+            .and().and().authorizeRequests()
+            .antMatchers("/authentication/login", configProperties.getBrowser().getLoginPage(), "/session/invalid")
+            .permitAll()
+            .anyRequest().authenticated()
+            .and()
+            .csrf().disable();
     }
 
 }
